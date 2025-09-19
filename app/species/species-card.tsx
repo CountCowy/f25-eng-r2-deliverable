@@ -207,7 +207,7 @@ export default function SpeciesCard({ species, userId }: { species: Species, use
       </Button> 
     </DialogTrigger>
     <DialogContent className="max-h-screen overflow-y-auto sm:max-w-[600px]">
-    <Button type="button" className="ml-1 mr-1 flex-auto" variant="secondary" onClick={deleteSpecies}>
+    <Button type="button" className="ml-1 mr-1 flex-auto" variant="secondary" onClick={(e) => { void deleteSpecies(e); }}>
         Confirm delete?
       </Button>
     </DialogContent>
