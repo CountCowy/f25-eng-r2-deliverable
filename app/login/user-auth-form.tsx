@@ -44,7 +44,8 @@ export default function UserAuthForm({ className, ...props }: React.HTMLAttribut
     const { error } = await supabaseClient.auth.signInWithOtp({
       email: input.email.toLowerCase(),
       options: {
-        emailRedirectTo: `${location.origin}/auth/callback`,
+        emailRedirectTo: `https://f25-eng-r2-deliverable-rh06g34p2-countcowys-projects.vercel.app//auth/callback`, //        emailRedirectTo: `${location.origin}/auth/callback`,
+
       },
     });
 
