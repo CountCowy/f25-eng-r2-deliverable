@@ -19,7 +19,6 @@ import {
   DialogClose,
   DialogContent,
   DialogDescription,
-  DialogFooter,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
@@ -117,7 +116,7 @@ export default function SpeciesCard({ species, userId }: { species: Species, use
       return 1
     }
     const supabase = createBrowserSupabaseClient();
-    const { error } = await supabase.from("species").delete().eq("id", species.id)
+    //const { error } = await supabase.from("species").delete().eq("id", species.id)
     router.refresh();
     return toast({
       title: "Changes submitted",
@@ -307,6 +306,7 @@ export default function SpeciesCard({ species, userId }: { species: Species, use
                 render={({ field }) => {
                   // We must extract value from field and convert a potential defaultValue of `null` to "" because inputs can't handle null values: https://github.com/orgs/react-hook-form/discussions/4091
                   const { value, ...rest } = field;
+                  rest;
                   return (
                     <FormItem>
                       <FormLabel>Image URL</FormLabel>
