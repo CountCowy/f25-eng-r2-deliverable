@@ -14,7 +14,7 @@ import { Button } from "@/components/ui/button";
 import type { Database } from "@/lib/schema";
 import Image from "next/image";
 
-import {// organize these l8r
+import {
   Dialog,
   DialogClose,
   DialogContent,
@@ -27,7 +27,6 @@ import {// organize these l8r
 import { useState, type BaseSyntheticEvent } from "react";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { useForm } from "react-hook-form";
-import { Icons } from "@/components/icons";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { Input } from "@/components/ui/input";
@@ -80,6 +79,8 @@ type FormData = z.infer<typeof speciesSchema>;
 export default function SpeciesCard({ species, userId }: { species: Species, userId: string}) {
   const [openInfo, setOpenInfo] = useState<boolean>(false);
   const [openEdit, setOpenEdit] = useState<boolean>(false);
+  const [openDelete, setOpenDelete] = useState<boolean>(false);
+
 
   const router = useRouter();
 
@@ -110,6 +111,20 @@ export default function SpeciesCard({ species, userId }: { species: Species, use
     }
     form.reset(defaultValues); 
     setEditing(false);
+  }
+  const deleteSpecies = async (e: MouseEvent)=>{
+    e.preventDefault();
+    if (!window.confirm("Delete this species?")){
+      return 1
+    }
+    const supabase = createBrowserSupabaseClient();
+    const { error } = await supabase.from("species").delete().eq("id", species.id)
+    router.refresh();
+    return toast({
+      title: "Changes submitted",
+      description: "Successfully deleted species.",
+    });
+
   }
 
   const onSubmit = async (input: FormData) => {
@@ -181,7 +196,20 @@ export default function SpeciesCard({ species, userId }: { species: Species, use
 
 
 
-    { userId == species.author ? (//show edit button only to the author
+    { userId == species.author ? (//show edit and delete buttons only to the author
+    <>
+    <Dialog open={openDelete} onOpenChange={setOpenDelete}>
+    <DialogTrigger asChild>
+      <Button className="mt-3 w-full">
+        Delete
+      </Button> 
+    </DialogTrigger>
+    <DialogContent className="max-h-screen overflow-y-auto sm:max-w-[600px]">
+    <Button type="button" className="ml-1 mr-1 flex-auto" variant="secondary" onClick={deleteSpecies}>
+        Confirm delete?
+      </Button>
+    </DialogContent>
+    </Dialog>
     <Dialog open={openEdit} onOpenChange={setOpenEdit}>
       <DialogTrigger asChild>
         <Button className="mt-3 w-full">
@@ -338,6 +366,7 @@ export default function SpeciesCard({ species, userId }: { species: Species, use
         </Form>
       </DialogContent> 
     </Dialog>
+    </>
     ) : ( null )}
     </div>
   ); 

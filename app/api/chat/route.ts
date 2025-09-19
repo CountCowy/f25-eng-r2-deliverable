@@ -34,4 +34,4 @@ export async function POST(req: Request) {
   });
   */
 
-  //response.then((result) => console.log(result.output_text));
+  //response.then((result) => console.log(result.output_text)); delete()
