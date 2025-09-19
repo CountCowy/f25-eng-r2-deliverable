@@ -76,11 +76,10 @@ const speciesSchema = z.object({
 type FormData = z.infer<typeof speciesSchema>;
 
 
-export default function SpeciesCard({ species, userId }: { species: Species, userId: string}) {
+export default function SpeciesCard({ species, userId }: { species: Species, userId: string,}) {
   const [openInfo, setOpenInfo] = useState<boolean>(false);
   const [openEdit, setOpenEdit] = useState<boolean>(false);
   const [openDelete, setOpenDelete] = useState<boolean>(false);
-
 
   const router = useRouter();
 
@@ -180,17 +179,14 @@ export default function SpeciesCard({ species, userId }: { species: Species, use
         </DialogTrigger>
         <DialogContent className="max-h-screen overflow-y-auto sm:max-w-[600px]">
         <DialogHeader>
-          <DialogTitle>More info</DialogTitle>
+          <DialogTitle>{species.scientific_name}</DialogTitle>
           <DialogDescription>
-            <p>{species.scientific_name} aka {species.common_name}</p>
+            <p>Common name: {species.common_name}</p>
             <p>Population: {species.total_population}</p>
             <p>Kingdom: {species.kingdom}</p>
             <p>Description: {species.description}</p>
           </DialogDescription>
         </DialogHeader>
-        <DialogFooter>
-          information compiled by {species.author}
-        </DialogFooter>
         </DialogContent>
       </Dialog>
 
