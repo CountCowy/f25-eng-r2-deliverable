@@ -116,7 +116,14 @@ export default function SpeciesCard({ species, userId }: { species: Species, use
       return 1
     }
     const supabase = createBrowserSupabaseClient();
-    //const { error } = await supabase.from("species").delete().eq("id", species.id)
+    const { error } = await supabase.from("species").delete().eq("id", species.id)
+    if (error) {
+      return toast({
+        title: "Something went wrong.",
+        description: error.message,
+        variant: "destructive",
+      });
+    }
     router.refresh();
     return toast({
       title: "Changes submitted",
